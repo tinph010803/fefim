@@ -16,8 +16,8 @@ const geistMono = localFont({
 
 export const metadata = {
   title: {
-    default: "Phim Ảnh",
-    template: "%s | Phim Ảnh",
+    default: "Fê Fim",
+    template: "%s | Phim của tyn",
   },
   description: "Website phim ảnh",
 };
@@ -27,11 +27,16 @@ export default function RootLayout({ children }) {
       <head>
         <meta
           name="google-site-verification"
-        
+
         />
         <link
           rel="stylesheet"
         />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        />
+
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

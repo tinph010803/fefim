@@ -16,13 +16,11 @@ export default function Movie({ movie }) {
     server: null,
   });
 
-  // Memoized server and episode selection
   const serverOptions = useMemo(
     () => movie.episodes.map((server) => server.server_name),
     [movie.episodes]
   );
 
-  // Xử lý chọn tập phim
   const handleEpisodeSelect = (episode, server) => {
     setCurrentMedia({
       src: episode.embed,
@@ -32,20 +30,18 @@ export default function Movie({ movie }) {
     });
   };
 
-  // Component hiển thị thông tin phim
   const MovieInfoItem = ({ label, value, className = "" }) => {
     if (!value) return null;
     return (
       <div className={`text-sm text-gray-700 dark:text-gray-300 ${className}`}>
         <span className="font-semibold text-gray-900 dark:text-white">
-          {label}:{" "}
+          {label}: {" "}
         </span>
         {value}
       </div>
     );
   };
 
-  // Nút tương tác
   const InteractiveButton = ({
     icon: Icon,
     label,
@@ -69,11 +65,11 @@ export default function Movie({ movie }) {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="flex flex-col items-center space-y-8">
         {/* Poster & Media Section */}
-        <div className="md:col-span-1">
+        <div className="w-full max-w-4xl">
           <motion.div
-            className="sticky top-8 space-y-4"
+            className="space-y-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
@@ -103,28 +99,11 @@ export default function Movie({ movie }) {
                 />
               )}
             </AnimatePresence>
-
-            {/* Thông tin nhanh */}
-            <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-xl">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                    {movie.quality}
-                  </span>
-                  <span className="text-sm font-medium bg-green-100 text-green-800 px-2 py-1 rounded">
-                    {movie.language}
-                  </span>
-                </div>
-                <span className="text-sm text-gray-500">
-                  {movie.category[3]?.list[0]?.name}
-                </span>
-              </div>
-            </div>
           </motion.div>
         </div>
 
-        {/* Thông tin phim */}
-        <div className="md:col-span-2 space-y-6">
+        {/* Movie Info */}
+        <div className="w-full max-w-4xl bg-gray-100 dark:bg-gray-800 p-6 rounded-lg space-y-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
               {movie.name}
@@ -137,7 +116,6 @@ export default function Movie({ movie }) {
             )}
           </div>
 
-          {/* Nút điều khiển */}
           <div className="flex gap-4">
             <InteractiveButton
               icon={PlayCircleIcon}
@@ -154,25 +132,30 @@ export default function Movie({ movie }) {
             />
           </div>
 
-          {/* Mô tả */}
-          <p className="text-gray-600 dark:text-gray-300">
-            {movie.description}
-          </p>
+          <p className="text-gray-600 dark:text-gray-300">{movie.description}</p>
 
-          {/* Thông tin chi tiết */}
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid md:grid-row-2 gap-4">
             <MovieInfoItem label="Tên gốc" value={movie.original_name} />
+            <MovieInfoItem label="Đạo diễn" value={movie.director} />
+            <MovieInfoItem
+              label="Diễn viên"
+              value={movie.casts}
+            />
             <MovieInfoItem
               label="Quốc gia"
               value={movie.category[4]?.list[0]?.name}
             />
             <MovieInfoItem
+              label="Khởi chiếu"
+              value={movie.category[3]?.list[0]?.name}
+            />
+            <MovieInfoItem
               label="Thể loại"
               value={movie.category[2]?.list?.map((cat) => cat.name).join(", ")}
             />
+
           </div>
 
-          {/* Danh sách tập */}
           <div>
             <h2 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
               Danh sách tập
@@ -189,10 +172,9 @@ export default function Movie({ movie }) {
                       key={episodeIndex}
                       className={`
                         px-3 py-1 rounded-md text-sm transition-all
-                        ${
-                          currentMedia.episode === episode.name
-                            ? "bg-blue-500 text-white"
-                            : "bg-gray-200 dark:bg-gray-700 hover:bg-blue-100"
+                        ${currentMedia.episode === episode.name
+                          ? "bg-blue-500 text-white"
+                          : "bg-gray-200 dark:bg-gray-700 hover:bg-blue-100"
                         }
                       `}
                       whileHover={{ scale: 1.05 }}
