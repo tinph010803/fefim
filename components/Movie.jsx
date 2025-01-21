@@ -6,6 +6,7 @@ import {
   PlayCircleIcon,
   InformationCircleIcon,
   ServerIcon,
+  BookmarkIcon,
 } from "@heroicons/react/24/solid";
 
 export default function Movie({ movie }) {
@@ -15,6 +16,7 @@ export default function Movie({ movie }) {
     episode: null,
     server: null,
   });
+  const [showNotification, setShowNotification] = useState(false);
 
   const serverOptions = useMemo(
     () => movie.episodes.map((server) => server.server_name),
@@ -28,6 +30,13 @@ export default function Movie({ movie }) {
       episode: episode.name,
       server: server.server_name,
     });
+  };
+
+  const handleSaveMovie = () => {
+    setShowNotification(true);
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 3000); // Thông báo sẽ ẩn sau 3 giây
   };
 
   const MovieInfoItem = ({ label, value, className = "" }) => {
@@ -65,6 +74,20 @@ export default function Movie({ movie }) {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <AnimatePresence>
+        {showNotification && (
+          <motion.div
+            className="fixed top-4 right-4 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg z-50"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
+          >
+            <p className="text-sm font-medium">Chức năng đang được phát triển !!!</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="flex flex-col items-center space-y-8">
         {/* Poster & Media Section */}
         <div className="w-full max-w-4xl">
@@ -126,9 +149,10 @@ export default function Movie({ movie }) {
               }}
             />
             <InteractiveButton
-              icon={InformationCircleIcon}
-              label="Chi tiết"
-              className="bg-gray-200 text-gray-800 hover:bg-gray-300"
+              icon={BookmarkIcon}
+              label="Lưu phim"
+              onClick={handleSaveMovie}
+              className="bg-red-500 text-white hover:bg-red-600"
             />
           </div>
 
@@ -137,23 +161,10 @@ export default function Movie({ movie }) {
           <div className="grid md:grid-row-2 gap-4">
             <MovieInfoItem label="Tên gốc" value={movie.original_name} />
             <MovieInfoItem label="Đạo diễn" value={movie.director} />
-            <MovieInfoItem
-              label="Diễn viên"
-              value={movie.casts}
-            />
-            <MovieInfoItem
-              label="Quốc gia"
-              value={movie.category[4]?.list[0]?.name}
-            />
-            <MovieInfoItem
-              label="Khởi chiếu"
-              value={movie.category[3]?.list[0]?.name}
-            />
-            <MovieInfoItem
-              label="Thể loại"
-              value={movie.category[2]?.list?.map((cat) => cat.name).join(", ")}
-            />
-
+            <MovieInfoItem label="Diễn viên" value={movie.casts} />
+            <MovieInfoItem label="Quốc gia" value={movie.category[4]?.list[0]?.name} />
+            <MovieInfoItem label="Khởi chiếu" value={movie.category[3]?.list[0]?.name} />
+            <MovieInfoItem label="Thể loại" value={movie.category[2]?.list?.map((cat) => cat.name).join(", ")} />
           </div>
 
           <div>

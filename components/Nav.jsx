@@ -7,6 +7,7 @@ export default function Nav({ currentPage }) {
   const [searchContent, setSearch] = useState("");
   const [openDropdown, setOpenDropdown] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false); // State for mobile menu
+  const [openPersonal, setOpenPersonal] = useState(false); // State for personal dropdown
 
   const types = [
     { name: "Trang chủ", link: "/" },
@@ -20,7 +21,24 @@ export default function Nav({ currentPage }) {
     { name: "Phiêu Lưu", link: "/category/phieu-luu" },
     { name: "Hoạt Hình", link: "/category/hoat-hinh" },
     { name: "Hài", link: "/category/hai" },
-    // ... other categories
+    { name: "Hình Sự", link: "/category/hinh-su" },
+    { name: "Tài Liệu", link: "/category/tai-lieu" },
+    { name: "Chính Kịch", link: "/category/chinh-kich" },
+    { name: "Gia Đình", link: "/category/gia-dinh" },
+    { name: "Giả Tưởng", link: "/category/gia-tuong" },
+    { name: "Lịch Sử", link: "/category/lich-su" },
+    { name: "Kinh Dị", link: "/category/kinh-di" },
+    { name: "Nhạc", link: "/category/nhac" },
+    { name: "Bí Ẩn", link: "/category/bi-an" },
+    { name: "Lãng Mạn", link: "/category/lang-man" },
+    { name: "Khoa Học Viễn Tưởng", link: "/category/khoa-hoc-vien-tuong" },
+    { name: "Gây Cấn", link: "/category/gay-can" },
+    { name: "Chiến Tranh", link: "/category/chien-tranh" },
+    { name: "Tâm Lý", link: "/category/tam-ly" },
+    { name: "Tình Cảm", link: "/category/tinh-cam" },
+    { name: "Cổ Trang", link: "/category/co-trang" },
+    { name: "Miền Tây", link: "/category/mien-tay" },
+    { name: "Phim 18+", link: "/category/phim-18" },
   ];
 
   const navVariants = {
@@ -94,13 +112,45 @@ export default function Nav({ currentPage }) {
                 </div>
               )}
             </div>
+
+            {/* Personal Section */}
+            <div className="relative">
+              <button
+                className="text-gray-800 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700 px-4 py-2 rounded-lg"
+                onClick={() => setOpenPersonal(!openPersonal)}
+              >
+                Cá nhân
+              </button>
+              {openPersonal && (
+                <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg dark:bg-gray-800">
+                  <ul className="flex flex-col gap-2 p-2">
+                    <li className="hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md">
+                      <a
+                        href="/saved"
+                        className="block px-4 py-2 text-gray-800 dark:text-gray-200"
+                      >
+                        Đã lưu
+                      </a>
+                    </li>
+                    <li className="hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md">
+                      <a
+                        href="/recent"
+                        className="block px-4 py-2 text-gray-800 dark:text-gray-200"
+                      >
+                        Đã xem gần đây
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
           </ul>
         </div>
       </div>
 
       {/* Search Bar */}
       <motion.div
-        className="relative max-w-lg border border-gray-300 rounded-md flex items-center dark:border-gray-600 bg-white dark:bg-gray-800 shadow-md"
+        className="relative max-w-lg border border-gray-300 rounded-md flex items-center dark:border-gray-600 bg-white dark:bg-gray-800 shadow-md mr-10"
         whileHover={{ scale: 1.05 }}
       >
         <i className="fas fa-search text-blue-500 dark:text-blue-400 ml-3"></i>
